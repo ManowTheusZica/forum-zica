@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ForumGalaxia — O Universo Digital dos Amigos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ========== CSS RESET & VARIABLES ========== */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-deep:#0a0e1a;
+  --bg-card:#111827;
+  --bg-card-hover:#1a2332;
+  --bg-sidebar:rgba(17,24,39,.72);
+  --bg-input:#0d1320;
+  --border:#1e293b;
+  --border-light:#334155;
+  --text-primary:#f1f5f9;
+  --text-secondary:#94a3b8;
+  --text-muted:#64748b;
+  --accent-1:#7c3aed;
+  --accent-2:#3b82f6;
+  --accent-gradient:linear-gradient(135deg,#7c3aed,#3b82f6);
+  --accent-gradient-text:linear-gradient(135deg,#a78bfa,#60a5fa);
+  --green:#22c55e;
+  --orange:#f59e0b;
+  --red:#ef4444;
+  --pink:#ec4899;
+  --radius:12px;
+  --radius-sm:8px;
+  --radius-lg:16px;
+  --shadow:0 4px 24px rgba(0,0,0,.4);
+  --shadow-sm:0 2px 8px rgba(0,0,0,.3);
+  --transition:all .25s cubic-bezier(.4,0,.2,1);
+  --font-heading:'Plus Jakarta Sans',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --sidebar-w:260px;
+  --header-h:64px;
+}
+[data-theme="light"]{
+  --bg-deep:#f8fafc;
+  --bg-card:#ffffff;
+  --bg-card-hover:#f1f5f9;
+  --bg-sidebar:rgba(255,255,255,.82);
+  --bg-input:#f1f5f9;
+  --border:#e2e8f0;
+  --border-light:#cbd5e1;
+  --text-primary:#0f172a;
+  --text-secondary:#475569;
+  --text-muted:#94a3b8;
+  --shadow:0 4px 24px rgba(0,0,0,.08);
+  --shadow-sm:0 2px 8px rgba(0,0,0,.06);
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--font-body);
+  background:var(--bg-deep);
+  color:var(--text-primary);
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.6;
+  transition:background .3s,color .3s;
+}
+h1,h2,h3,h4,h5{font-family:var(--font-heading);font-weight:700;line-height:1.3}
+a{color:inherit;text-decoration:none}
+button{font-family:var(--font-body);cursor:pointer;border:none;background:none;color:inherit}
+input,textarea,select{font-family:var(--font-body);color:var(--text-primary);background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;outline:none;transition:var(--transition);width:100%}
+input:focus,textarea:focus,select:focus{border-color:var(--accent-1);box-shadow:0 0 0 3px rgba(124,58,237,.15)}
+textarea{resize:vertical;min-height:120px}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-light);border-radius:3px}
+
+/* ========== LAYOUT ========== */
+#app{display:flex;min-height:100vh}
+#sidebar{
+  width:var(--sidebar-w);
+  position:fixed;top:0;left:0;bottom:0;
+  background:var(--bg-sidebar);
+  backdrop-filter:blur(20px);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  z-index:100;
+  transition:transform .3s cubic-bezier(.4,0,.2,1);
+}
+#main{margin-left:var(--sidebar-w);flex:1;min-height:100vh;transition:margin .3s}
+#header{
+  position:sticky;top:0;height:var(--header-h);
+  background:var(--bg-sidebar);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;z-index:90;
+}
+#content{max-width:1100px;margin:0 auto;padding:24px 24px 80px}
+
+/* ========== SIDEBAR ========== */
+.sidebar-logo{padding:20px 20px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border)}
+.sidebar-logo .logo-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:var(--accent-gradient);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:800;color:#fff;
+  box-shadow:0 2px 12px rgba(124,58,237,.35);
+}
+.sidebar-logo h2{font-size:16px;font-weight:800;letter-spacing:-.3px}
+.sidebar-logo h2 span{background:var(--accent-gradient-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sidebar-nav{flex:1;overflow-y:auto;padding:12px}
+.sidebar-section{margin-bottom:20px}
+.sidebar-section-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);padding:4px 12px;margin-bottom:4px}
+.sidebar-link{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px;border-radius:var(--radius-sm);
+  font-size:13.5px;font-weight:500;color:var(--text-secondary);
+  transition:var(--transition);cursor:pointer;
+}
+.sidebar-link:hover{background:rgba(124,58,237,.08);color:var(--text-primary)}
+.sidebar-link.active{background:var(--accent-gradient);color:#fff;box-shadow:0 2px 12px rgba(124,58,237,.3)}
+.sidebar-link .icon{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.sidebar-link .badge{
+  margin-left:auto;background:var(--accent-1);color:#fff;
+  font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;
+}
+.sidebar-user{
+  padding:16px 16px;border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.sidebar-user .avatar{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0}
+.sidebar-user .user-info{flex:1;min-width:0}
+.sidebar-user .user-name{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sidebar-user .user-role{font-size:11px;color:var(--text-muted)}
+.sidebar-user button{font-size:11px;color:var(--text-muted);transition:var(--transition);padding:4px 8px;border-radius:var(--radius-sm)}
+.sidebar-user button:hover{color:var(--red);background:rgba(239,68,68,.1)}
+
+.mobile-menu-btn{
+  display:none;width:40px;height:40px;
+  border-radius:var(--radius-sm);
+  font-size:20px;align-items:center;justify-content:center;
+  transition:var(--transition);
+}
+.mobile-menu-btn:hover{background:var(--bg-card)}
+.overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.5);z-index:99;
+}
+
+/* ========== HEADER ========== */
+.header-search{position:relative;flex:1;max-width:400px;margin:0 24px}
+.header-search input{
+  padding:9px 14px 9px 38px;border-radius:20px;font-size:13px;
+  background:var(--bg-card);border:1px solid var(--border);
+  transition:var(--transition);
+}
+.header-search input:focus{max-width:480px;box-shadow:var(--shadow)}
+.header-search .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:14px}
+.header-actions{display:flex;align-items:center;gap:8px}
+.theme-toggle{
+  width:36px;height:36px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;transition:var(--transition);
+}
+.theme-toggle:hover{background:var(--bg-card)}
+.btn{
+  padding:9px 18px;border-radius:var(--radius-sm);
+  font-size:13px;font-weight:600;transition:var(--transition);
+  display:inline-flex;align-items:center;gap:6px;
+}
+.btn-primary{
+  background:var(--accent-gradient);color:#fff;
+  box-shadow:0 2px 12px rgba(124,58,237,.25);
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(124,58,237,.35)}
+.btn-secondary{background:var(--bg-card);border:1px solid var(--border);color:var(--text-primary)}
+.btn-secondary:hover{border-color:var(--accent-1);background:var(--bg-card-hover)}
+.btn-ghost{color:var(--text-secondary);padding:6px 10px}
+.btn-ghost:hover{color:var(--text-primary);background:rgba(255,255,255,.05)}
+.btn-danger{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.btn-danger:hover{background:rgba(239,68,68,.2)}
+
+/* ========== HERO ========== */
+.hero{
+  text-align:center;padding:48px 0 40px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
+  width:600px;height:400px;
+  background:radial-gradient(ellipse,rgba(124,58,237,.12) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero h1{font-size:36px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px}
+.hero h1 span{background:var(--accent-gradient-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{color:var(--text-secondary);font-size:15px;max-width:500px;margin:0 auto 28px}
+.stats-bar{
+  display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
+}
+.stat-item{text-align:center}
+.stat-value{font-size:24px;font-weight:800;font-family:var(--font-heading);background:var(--accent-gradient-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-label{font-size:12px;color:var(--text-muted);font-weight:500;margin-top:2px}
+
+/* ========== CARDS ========== */
+.card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);transition:var(--transition);
+  overflow:hidden;
+}
+.card:hover{border-color:var(--border-light);transform:translateY(-2px);box-shadow:var(--shadow)}
+
+/* ========== CATEGORIES GRID ========== */
+.section-title{font-size:18px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+.categories-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:32px}
+.category-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;
+  cursor:pointer;transition:var(--transition);
+  display:flex;gap:16px;align-items:flex-start;
+}
+.category-card:hover{border-color:var(--accent-1);transform:translateY(-2px);box-shadow:var(--shadow)}
+.category-icon{
+  width:48px;height:48px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;
+}
+.category-info h3{font-size:15px;margin-bottom:4px}
+.category-info p{font-size:12.5px;color:var(--text-secondary);line-height:1.5}
+.category-meta{display:flex;gap:12px;margin-top:8px;font-size:11.5px;color:var(--text-muted)}
+
+/* ========== THREAD LIST ========== */
+.thread-list-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;flex-wrap:wrap;gap:12px;
+}
+.thread-list-header h2{font-size:18px}
+.thread-filters{display:flex;gap:6px;flex-wrap:wrap}
+.filter-btn{
+  padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);
+  transition:var(--transition);
+}
+.filter-btn:hover{border-color:var(--accent-1);color:var(--text-primary)}
+.filter-btn.active{background:var(--accent-gradient);color:#fff;border-color:transparent}
+.thread-row{
+  display:flex;align-items:center;gap:14px;
+  padding:16px 18px;border-bottom:1px solid var(--border);
+  transition:var(--transition);cursor:pointer;
+}
+.thread-row:last-child{border-bottom:none}
+.thread-row:hover{background:var(--bg-card-hover)}
+.thread-avatar{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.thread-info{flex:1;min-width:0}
+.thread-title{font-size:14px;font-weight:600;margin-bottom:2px;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.thread-title:hover{color:var(--accent-1)}
+.thread-meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-muted);flex-wrap:wrap}
+.thread-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--text-muted)}
+.thread-tags{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
+.tag{
+  font-size:10.5px;padding:2px 8px;border-radius:10px;
+  background:rgba(124,58,237,.1);color:var(--accent-1);font-weight:600;
+}
+.tag.blue{background:rgba(59,130,246,.1);color:var(--accent-2)}
+.tag.green{background:rgba(34,197,94,.1);color:var(--green)}
+.tag.orange{background:rgba(245,158,11,.1);color:var(--orange)}
+.thread-stats{text-align:right;flex-shrink:0}
+.thread-replies{font-size:14px;font-weight:700;font-family:var(--font-heading)}
+.thread-replies-label{font-size:11px;color:var(--text-muted)}
+
+/* ========== THREAD VIEW ========== */
+.thread-header{margin-bottom:24px}
+.thread-header .breadcrumb{font-size:12px;color:var(--text-muted);margin-bottom:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.thread-header .breadcrumb a{color:var(--accent-1);transition:var(--transition)}
+.thread-header .breadcrumb a:hover{text-decoration:underline}
+.thread-header h1{font-size:24px;margin-bottom:8px;letter-spacing:-.3px}
+.thread-header .thread-header-meta{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text-secondary);flex-wrap:wrap}
+
+.post-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;margin-bottom:12px;
+  transition:var(--transition);
+}
+.post-card:hover{border-color:var(--border-light)}
+.post-card.original{border-left:3px solid var(--accent-1)}
+.post-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.post-avatar{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.post-author{font-size:13.5px;font-weight:600}
+.post-time{font-size:11.5px;color:var(--text-muted)}
+.post-body{font-size:14px;line-height:1.75;color:var(--text-secondary);margin-bottom:16px;white-space:pre-wrap;word-break:break-word}
+.post-body p{margin-bottom:8px}
+.post-footer{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.reaction-btn{
+  display:flex;align-items:center;gap:5px;
+  padding:6px 12px;border-radius:20px;
+  font-size:12.5px;font-weight:600;
+  background:var(--bg-input);border:1px solid var(--border);
+  color:var(--text-secondary);transition:var(--transition);
+}
+.reaction-btn:hover{border-color:var(--accent-1);color:var(--text-primary);transform:scale(1.05)}
+.reaction-btn.active{background:rgba(124,58,237,.12);border-color:var(--accent-1);color:var(--accent-1)}
+.reaction-btn .count{font-weight:700}
+
+/* ========== REPLY FORM ========== */
+.reply-form{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:20px;margin-top:16px;
+}
+.reply-form h3{font-size:15px;margin-bottom:12px}
+.reply-form textarea{min-height:100px;margin-bottom:12px}
+
+/* ========== MODAL ========== */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.6);backdrop-filter:blur(4px);
+  z-index:200;align-items:center;justify-content:center;padding:20px;
+}
+.modal-overlay.active{display:flex}
+.modal{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:28px;
+  width:100%;max-width:560px;max-height:90vh;overflow-y:auto;
+  box-shadow:0 24px 64px rgba(0,0,0,.4);
+  animation:modalIn .25s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:none}}
+.modal h2{font-size:20px;margin-bottom:20px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:12.5px;font-weight:600;margin-bottom:6px;color:var(--text-secondary)}
+.form-group select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+
+/* ========== USER PROFILE ========== */
+.profile-header{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:32px;text-align:center;margin-bottom:24px;
+  position:relative;overflow:hidden;
+}
+.profile-header::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:80px;
+  background:var(--accent-gradient);opacity:.15;
+}
+.profile-avatar-lg{
+  width:80px;height:80px;border-radius:20px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;font-weight:800;color:#fff;
+  margin:0 auto 12px;position:relative;
+  border:3px solid var(--bg-card);
+  box-shadow:var(--shadow);
+}
+.profile-name{font-size:22px;font-weight:800}
+.profile-joined{font-size:12.5px;color:var(--text-muted);margin-top:4px}
+.profile-stats{display:flex;justify-content:center;gap:24px;margin-top:16px}
+.profile-stat{text-align:center}
+.profile-stat-val{font-size:18px;font-weight:800;font-family:var(--font-heading);background:var(--accent-gradient-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.profile-stat-label{font-size:11px;color:var(--text-muted)}
+
+/* ========== SEARCH RESULTS ========== */
+.search-highlight{background:rgba(124,58,237,.2);padding:1px 4px;border-radius:3px}
+
+/* ========== EMPTY STATE ========== */
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-muted)}
+.empty-state .icon{font-size:48px;margin-bottom:16px;opacity:.5}
+.empty-state h3{font-size:16px;color:var(--text-secondary);margin-bottom:8px}
+
+/* ========== LOGIN MODAL ========== */
+.login-avatar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.login-user-btn{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:var(--radius-sm);
+  border:2px solid var(--border);transition:var(--transition);
+  background:var(--bg-input);
+}
+.login-user-btn:hover{border-color:var(--accent-1);transform:translateY(-1px)}
+.login-user-btn.selected{border-color:var(--accent-1);background:rgba(124,58,237,.08)}
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.animate-in{animation:fadeIn .3s ease forwards}
+.animate-in:nth-child(2){animation-delay:.05s}
+.animate-in:nth-child(3){animation-delay:.1s}
+.animate-in:nth-child(4){animation-delay:.15s}
+.animate-in:nth-child(5){animation-delay:.2s}
+
+/* ========== TOAST ========== */
+.toast{
+  position:fixed;bottom:24px;right:24px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:14px 20px;
+  box-shadow:var(--shadow);font-size:13px;font-weight:500;
+  z-index:300;transform:translateY(80px);opacity:0;
+  transition:all .35s cubic-bezier(.4,0,.2,1);
+  display:flex;align-items:center;gap:8px;
+}
+.toast.show{transform:translateY(0);opacity:1}
+.toast.success{border-color:var(--green)}
+.toast.error{border-color:var(--red)}
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:900px){
+  #sidebar{transform:translateX(-100%)}
+  #sidebar.open{transform:translateX(0)}
+  #main{margin-left:0}
+  .mobile-menu-btn{display:flex}
+  .overlay.open{display:block}
+  .categories-grid{grid-template-columns:1fr}
+  .hero h1{font-size:28px}
+  .stats-bar{gap:20px}
+  .stat-value{font-size:20px}
+}
+@media(max-width:600px){
+  #content{padding:16px 12px 60px}
+  .header-search{margin:0 12px}
+  .thread-row{padding:12px}
+  .post-card{padding:16px}
+  .profile-header{padding:24px 16px}
+  .modal{padding:20px}
+  .thread-list-header{flex-direction:column;align-items:flex-start}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <!-- Sidebar -->
+  <aside id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">FG</div>
+      <h2><span>Forum</span>Galaxia</h2>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav"></nav>
+    <div class="sidebar-user" id="sidebarUser"></div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Main -->
+  <div id="main">
+    <header id="header">
+      <button class="mobile-menu-btn" onclick="toggleSidebar()">☰</button>
+      <div class="header-search">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Buscar threads, posts, usuários..." id="searchInput" oninput="handleSearch()" onkeydown="if(event.key==='Escape')this.value='';handleSearch()">
+      </div>
+      <div class="header-actions">
+        <button class="theme-toggle" onclick="toggleTheme()" title="Alternar tema">🌙</button>
+        <button class="btn btn-primary" onclick="openCreateModal()">✦ Nova Thread</button>
+      </div>
+    </header>
+    <div id="content"></div>
+  </div>
+</div>
+
+<!-- Create Thread Modal -->
+<div class="modal-overlay" id="createModal">
+  <div class="modal">
+    <h2>✦ Nova Thread</h2>
+    <div class="form-group">
+      <label>Título</label>
+      <input type="text" id="threadTitle" placeholder="Título da thread..." maxlength="120">
+    </div>
+    <div class="form-group">
+      <label>Categoria</label>
+      <select id="threadCategory"></select>
+    </div>
+    <div class="form-group">
+      <label>Tags (separadas por vírgula)</label>
+      <input type="text" id="threadTags" placeholder="ex: ajuda, dica, discussão">
+    </div>
+    <div class="form-group">
+      <label>Conteúdo</label>
+      <textarea id="threadContent" placeholder="Escreva o conteúdo da thread..."></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeCreateModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="createThread()">Criar Thread</button>
+    </div>
+  </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal">
+    <h2>👋 Bem-vindo ao ForumGalaxia</h2>
+    <p style="font-size:13.5px;color:var(--text-secondary);margin-bottom:16px">Escolha seu perfil ou crie um novo:</p>
+    <div class="login-avatar-grid" id="loginUserGrid"></div>
+    <div class="form-group">
+      <label>Ou digite seu nome</label>
+      <input type="text" id="loginCustomName" placeholder="Seu nome de usuário..." maxlength="24">
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="loginUser()">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================================================================
+   FORUM GALAXIA — Complete SPA Forum
+   ================================================================ */
+
+// ==================== DATA SEED ====================
+const SEED_USERS = [
+  { id:'u1', name:'ManowTheusZica', joined:'2025-01-15' },
+  { id:'u2', name:'Vini', joined:'2025-02-03' },
+  { id:'u3', name:'Nelson', joined:'2025-01-20' },
+  { id:'u4', name:'Rachid', joined:'2025-03-01' },
+  { id:'u5', name:'Mamba', joined:'2025-02-14' },
+  { id:'u6', name:'Bluezao', joined:'2025-04-05' },
+];
+
+const SEED_CATEGORIES = [
+  { id:'cat1', name:'Geral', icon:'💬', color:'#7c3aed', desc:'Discussões gerais sobre qualquer assunto do dia a dia.' },
+  { id:'cat2', name:'Tecnologia', icon:'💻', color:'#3b82f6', desc:'Tendências, hardware, software e novidades do mundo tech.' },
+  { id:'cat3', name:'Jogos', icon:'🎮', color:'#22c55e', desc:'Games, reviews, releases e dicas de gameplay.' },
+  { id:'cat4', name:'Arte & Criatividade', icon:'🎨', color:'#f59e0b', desc:'Design, arte digital, música, fotografia e expressão criativa.' },
+  { id:'cat5', name:'Off-Topic', icon:'🌀', color:'#ec4899', desc:'Tópicos livres, memes, conversas sem filter.' },
+  { id:'cat6', name:'Suporte', icon:'🛠️', color:'#ef4444', 'desc':'Ajuda técnica, bugs, tutoriais e resolução de problemas.' },
+];
+
+const SEED_THREADS = [
+  { id:'t1', categoryId:'cat1', authorId:'u1', title:'Bem-vindos ao ForumGalaxia! 🚀', content:'Fala galera! Criei esse fórum pra gente ter um espaço nosso pra conversar, compartilhar ideias e se divertir. Aqui vai ser nosso cantinho digital!\n\nExpectativas:\n• Discutir tecnologia, jogos, arte\n• Compartilhar conteúdo criativo\n• Ajudar quem precisar\n\nBora fazer esse lugar crescer! 💪', tags:['anúncio','bem-vindo'], createdAt:'2025-04-10T14:30:00Z', views:245 },
+  { id:'t2', categoryId:'cat2', authorId:'u2', title:'GPU ou CPU — Onde investir em 2026?', content:'Galera, tô montando um PC novo e tô na dúvida se invisto numa GPU melhor ou se dou upgrade no processador. Uso pra games e pra trabalhar com edição de vídeo.\n\nOpções:\n• RTX 5070 Ti + Ryzen 7 7700X\n• RTX 4080 + Ryzen 9 9900X\n\nO que vocês acham? Orçamento é apertado 😅', tags:['hardware','pc-gaming','dica'], createdAt:'2025-04-12T10:15:00Z', views:182 },
+  { id:'t3', categoryId:'cat3', authorId:'u3', title:'Review: GTA VI — Vale o hype?', content:'Pessoal, joguei GTA VI na beta e preciso compartilhar minha experiência.\n\n✅ Pros:\n• Mapa absurdo, o maior da série\n• Física do carro tá surreal\n• Multiplayer promete muito\n\n❌ Contras:\n• Requisitos pesados pra PC\n• Algumas missões repetitivas\n\nNo geral? 9/10. Rockstar não decepciona.', tags:['review','gta6','ps5'], createdAt:'2025-04-13T08:00:00Z', views:312 },
+  { id:'t4', categoryId:'cat4', authorId:'u5', title:'Meu workflow de arte digital no Procreate', content:'Queria compartilhar como organizo meu processo criativo no iPad:\n\n1. Sketch rápido (caneta 6B)\n2. Lineart com stabilize alto\n3. Flat colors base\n4. Rendering com pincéis custom\n5. Ajustes de cor no final\n\nCada etapa leva entre 20-40 min. Compartilho pincéis e presets se alguém quiser!', tags:['procreate','tutorial','digital'], createdAt:'2025-04-14T16:45:00Z', views:156 },
+  { id:'t5', categoryId:'cat5', authorId:'u4', title:'Qual a melhor série de 2025? 🎬', content:'To assistindo tudo e preciso de opiniões. Até agora:\n\n• Severance S2: đỉnh DEMAIS\n• The Bear S4: fraco, decepcionou\n• Arcane S2: lindo demais\n\nO que vocês acham? O que tá no topo da lista de vocês?', tags:['séries','entretenimento','enquete'], createdAt:'2025-04-15T20:30:00Z', views:203 },
+  { id:'t6', categoryId:'cat6', authorId:'u6', title:'Problema com Bluetooth no Ubuntu 24.04', content:'Pessoal, alguém já teve problema com Bluetooth no Ubuntu 24.04?\n\nO meu connecta mas o áudio fica cortando a cada 2 segundos. Já tentei:\n• Reinstalar bluez\n• Mudar codec pra SBC\n• Atualizar kernel\n\nNada funciona. Alguma dica?', tags:['ubuntu','bluetooth','bug','linux'], createdAt:'2025-04-16T11:20:00Z', views:89 },
+  { id:'t7', categoryId:'cat2', authorId:'u1', title:'Introdução a Rust — Por que vale aprender', content:'Rust tá crescendo rápido e aqui vão motivos pra você começar:\n\n🔒 Segurança de memória sem garbage collector\n⚡ Performance comparável a C/C++\n📦 Cargo é o melhor gerenciador de pacotes\n🧩 Comunidade super acolhedora\n\nComecei há 3 meses e já contributei em 2 projetos open source. Recomendo demais!', tags:['rust','programação','carreira'], createdAt:'2025-04-17T09:00:00Z', views:167 },
+  { id:'t8', categoryId:'cat3', authorId:'u2', title:'Tier list dos jogos de 2025 (até agora)', content:'MONTANDO UMA TIER LIST! Baseado em experiência pessoal:\n\n🏆 S-tier: Elden Ring DLC, Monster Hunter Wilds\n🔥 A-tier: GTA VI, Metroid Prime 4\n👍 B-tier: Pokémon Legends Z-A\n😐 C-tier: CoD annual release\n\nConcordam? Bora discutir!', tags:['tier-list','2025','opinião'], createdAt:'2025-04-18T14:00:00Z', views:224 },
+  { id:'t9', categoryId:'cat4', authorId:'u5', title:'Fotografia noturna — Dicas pra iniciantes', content:'Fotografo à noite há 2 anos e aprendi bastante. Aqui vão dicas:\n\n📷 Tripe é essencial (não tem jeito)\n🔭 ISO não passa de 3200\n⏱️ Exposição longa: 10-30s\n🔄 Foco manual, sempre!\n\nFotos de rua à noite são muito mais interessantes que de dia. O contraste de luz é incrível!', tags:['fotografia','dica','noite'], createdAt:'2025-04-19T22:15:00Z', views:134 },
+  { id:'t10', categoryId:'cat5', authorId:'u3', title:'Receita: Pão de queijo facinho 🧀', content:'Receita que minha avó passou:\n\n• 500g polvilho azedo\n• 200ml leite\n• 100ml óleo\n• 2 ovos\n• 200g queijo minas ralado\n• Sal a gosto\n\nMistura tudo, faz bolinhas, coloca no freezer 30min e assa a 180°C por 20min.\n\nFica DEMAIS, receive de verdad!', tags:['receita','culinária','pão-de-queijo'], createdAt:'2025-04-20T18:00:00Z', views:178 },
+  { id:'t11', categoryId:'cat1', authorId:'u4', title:'Encontro do grupo — Propostas de data', content:'Galera, bora marcar um encontro presencial? Preciso de sugestões:\n\n📍 Sugestões de local:\n• Bar do centro\n• Parque municipal\n• Casa de alguém\n\n📅 Datas possíveis:\n• Sábado dia 26\n• Domingo dia 27\n• Próximo fim de semana\n\nQuantos aparecem?', tags:['encontro','presencial','agenda'], createdAt:'2025-04-21T13:00:00Z', views:95 },
+  { id:'t12', categoryId:'cat2', authorId:'u6', title:'VS Code vs Neovim — A guerra eterna', content:'Uso VS Code no trabalho e Neovim em projetos pessoais. Pros e contras:\n\nVS Code:\n✅ Extensões incríveis\n✅ Debugger integrado\n❌ Engole RAM\n\nNeovim:\n✅ Velocidade absurda\n✅ Customização infinita\n❌ Curva de aprendizado cruel\n\nQual é a de vocês?', tags:['editores','debate','produtividade'], createdAt:'2025-04-22T10:30:00Z', views:198 },
+  { id:'t13', categoryId:'cat3', authorId:'u1', title:'Melhores jogos indie de 2025', content:'Jogos indie que passaram despercebidos mas são incríveis:\n\n🎯 Animal Well — Puzzle platformer surreal\n🎵 Plucky Squeak — Ritmo game fofo\n🌌 Nova Roma — RPG tático com pixel art linda\n⚔️ Flintlock — Souls-like diferente\n\nA galera ignora indie mas é onde tá a inovação mesmo!', tags:['indie','recomendação','2025'], createdAt:'2025-04-23T16:00:00Z', views:143 },
+  { id:'t14', categoryId:'cat4', authorId:'u5', title:'Playlist pra focar no trabalho 🎵', content:'Montei a playlist perfeita pra produtividade:\n\n🎧 Lo-fi hip hop beats\n🎧 Cinematic piano\n🎧 Ambientes de chuva\n🎧 Synthwave instrumental\n\nSem vocais (distrai demais). 4 horas de áudio no YouTube.\n\nQuem quiser o link, me chama!', tags:['música','produtividade','lofi'], createdAt:'2025-04-24T09:45:00Z', views:211 },
+  { id:'t15', categoryId:'cat5', authorId:'u6', title:'O que vocês acham do novo Telegram update?', content:'O Telegram atualizou e mudou muita coisa:\n\n• Stories agora ficam nos chats\n• Novos emojis animados\n• Channels viraram "Communities"\n\nTá ficando igual WhatsApp ou é melhoria real? Opiniões?', tags:['telegram','app','discussão'], createdAt:'2025-04-25T15:30:00Z', views:167 },
+  { id:'t16', categoryId:'cat6', authorId:'u3', title:'Como configurar Git com SSH no Windows', content:'Tutorial rápido pra quem tá starting:\n\n1. Instalar Git for Windows\n2. Abrir Git Bash como admin\n3. Rodar: ssh-keygen -t ed25519\n4. Copiar chave pública\n5. Adicionar no GitHub > Settings > SSH\n6. Testar: ssh -T git@github.com\n\nSe der erro de permissão, rode: eval $(ssh-agent -s) e adicione a key.', tags:['git','ssh','tutorial','windows'], createdAt:'2025-04-26T12:00:00Z', views:234 },
+];
+
+const SEED_POSTS = [
+  // Thread t1 - Bem-vindos
+  { id:'p1', threadId:'t1', authorId:'u2', content:'Mandou bem demais, Manow! Finalmente um espaço nosso. Aos poucos vamos crescendo! 🔥', reactions:{like:4,love:2,fire:1}, createdAt:'2025-04-10T15:00:00Z' },
+  { id:'p2', threadId:'t1', authorId:'u3', content:'Tô aqui desde o primeiro dia! Vamos lotar esse fórum, galera! 💪', reactions:{like:3,love:1,fire:0}, createdAt:'2025-04-10T15:30:00Z' },
+  { id:'p3', threadId:'t1', authorId:'u5', content:'Amei a ideia! Já penso em postar minhas artes aqui. Valeu pela iniciativa! 🎨', reactions:{like:2,love:3,fire:0}, createdAt:'2025-04-10T16:00:00Z' },
+  { id:'p4', threadId:'t1', authorId:'u4', content:'Show de bola! Quando marcamos o primeiro encontro do grupo? 😄', reactions:{like:5,love:0,fire:0}, createdAt:'2025-04-10T17:00:00Z' },
+  // Thread t2 - GPU ou CPU
+  { id:'p5', threadId:'t2', authorId:'u3', content:'Vai de RTX 5070 Ti com Ryzen 7. Pra edição de vídeo, a GPU faz mais diferença. O Ryzen 7 já é suficiente pra maioria das tarefas.', reactions:{like:6,love:0,fire:1}, createdAt:'2025-04-12T11:00:00Z' },
+  { id:'p6', threadId:'t2', authorId:'u1', content:'Concordo com o Nelson. GPU primeiro, sempre. CPU dá pra upgrade depois mais fácil.', reactions:{like:3,love:0,fire:0}, createdAt:'2025-04-12T11:30:00Z' },
+  { id:'p7', threadId:'t2', authorId:'u6', content:'Depende do tipo de edição. Se é After Effects, CPU importa muito. Premiere? GPU sem dúvida.', reactions:{like:4,love:1,fire:0}, createdAt:'2025-04-12T12:00:00Z' },
+  { id:'p8', threadId:'t2', authorId:'u5', content:'Já passei por isso ano passado. Fui de GPU melhor e não me arrependo. Rendering é 3x mais rápido.', reactions:{like:2,love:0,fire:0}, createdAt:'2025-04-12T13:00:00Z' },
+  // Thread t3 - GTA VI
+  { id:'p9', threadId:'t3', authorId:'u1', content:'9/10 é generoso. Eu dou 8.5. O mapa é incrível mas as side quests são meio fracas comparadas ao RDR2.', reactions:{like:5,love:0,fire:0}, createdAt:'2025-04-13T09:00:00Z' },
+  { id:'p10', threadId:'t3', authorId:'u2', content:'O online promete ser o melhor de todos. Se entregar metade do que prometem, vai ser lendário.', reactions:{like:7,love:1,fire:2}, createdAt:'2025-04-13T10:00:00Z' },
+  { id:'p11', threadId:'t3', authorId:'u4', content:'Mano a física dos carros... É impossível dirigir sem sorrir. Rockstar brincou demais nessa!', reactions:{like:4,love:2,fire:1}, createdAt:'2025-04-13T11:30:00Z' },
+  // Thread t4 - Procreate
+  { id:'p12', threadId:'t4', authorId:'u6', content:'Manda os pincéis aí! Tô começando no Procreate e toda ajuda é bem-vinda 🙏', reactions:{like:3,love:1,fire:0}, createdAt:'2025-04-14T17:30:00Z' },
+  { id:'p13', threadId:'t4', authorId:'u1', content:'Incrível o resultado que você consegue com iPad! Tem que postar as artes aqui no fórum.', reactions:{like:2,love:2,fire:0}, createdAt:'2025-04-14T18:00:00Z' },
+  // Thread t5 - Séries
+  { id:'p14', threadId:'t5', authorId:'u1', content:'Severance S2 é obra-prima. Cada episódio é um filme. Mia/thriller perfeito.', reactions:{like:8,love:3,fire:1}, createdAt:'2025-04-15T21:00:00Z' },
+  { id:'p15', threadId:'t5', authorId:'u2', content:'The Bear perdeu o hype depois da S3. A S4 confirmou: sem direção clara, o show se perde.', reactions:{like:4,love:0,fire:0}, createdAt:'2025-04-15T21:30:00Z' },
+  { id:'p16', threadId:'t5', authorId:'u5', content:'Shogun merecia mais menção. Uma das séries mais bonitas já feitas.', reactions:{like:6,love:2,fire:1}, createdAt:'2025-04-15T22:00:00Z' },
+  { id:'p17', threadId:'t5', authorId:'u6', content:'Nobody Wants This é underrated. Comédia romântica boa de verdade!', reactions:{like:3,love:1,fire:0}, createdAt:'2025-04-15T22:30:00Z' },
+  // Thread t6 - Bluetooth Ubuntu
+  { id:'p18', threadId:'t6', authorId:'u1', content:'Já tive esse problema! O fix foi: sudo tee /etc/bluetooth/main.conf << EOF\nAutoEnable=true\nEOF\nDepois reinicia o bluetooth service.', reactions:{like:5,love:1,fire:0}, createdAt:'2025-04-16T12:00:00Z' },
+  { id:'p19', threadId:'t6', authorId:'u3', content:'Tenta usar o pipewire ao invés do pulseaudio. Resolveu meu problema de áudio no bluetooth.', reactions:{like:3,love:0,fire:0}, createdAt:'2025-04-16T13:00:00Z' },
+  // Thread t7 - Rust
+  { id:'p20', threadId:'t7', authorId:'u2', content:'Estou olhando Rust há meses mas a curva de aprendizado me assusta. É tão difícil quanto dizem?', reactions:{like:2,love:0,fire:0}, createdAt:'2025-04-17T10:00:00Z' },
+  { id:'p21', threadId:'t7', authorId:'u4', content:'Boring pra quem vem de Python, mas depois que pega o jeito, não quer voltar. O compilador é seu amigo.', reactions:{like:4,love:1,fire:0}, createdAt:'2025-04-17T10:30:00Z' },
+  { id:'p22', threadId:'t7', authorId:'u6', content:'O The Book é o melhor tutorial de linguagem que já li. Recomendo demais pra quem quer começar.', reactions:{like:3,love:0,fire:0}, createdAt:'2025-04-17T11:00:00Z' },
+  // Thread t8 - Tier List
+  { id:'p23', threadId:'t8', authorId:'u1', content:'GTA VI em A-tier? Brother, isso é S-tier sem discussão. Revolucionou tudo.', reactions:{like:6,love:0,fire:2}, createdAt:'2025-04-18T15:00:00Z' },
+  { id:'p24', threadId:'t8', authorId:'u4', content:'Monster Hunter Wilds tá ABSURDO. Melhor da franquia com folga.', reactions:{like:5,love:2,fire:1}, createdAt:'2025-04-18T15:30:00Z' },
+  { id:'p25', threadId:'t8', authorId:'u5', content:'Metroid Prime 4 em A-tier é generoso. Gameplay é bom mas gráficos são… datados.', reactions:{like:3,love:0,fire:0}, createdAt:'2025-04-18T16:00:00Z' },
+  // Thread t9 - Fotografia
+  { id:'p26', threadId:'t9', authorId:'u3', content:'Dica de ouro: sempre leve um lenço de microfibra. Filtro oleoso na lente = foto arruinada.', reactions:{like:4,love:1,fire:0}, createdAt:'2025-04-19T23:00:00Z' },
+  { id:'p27', threadId:'t9', authorId:'u1', content:'Comprei meu primeiro tripé semana passada e a diferença é brutal. Fotografia noturna não funciona sem.', reactions:{like:3,love:0,fire:0}, createdAt:'2025-04-19T23:30:00Z' },
+  // Thread t10 - Pão de queijo
+  { id:'p28', threadId:'t10', authorId:'u1', content:'Salvando essa receita! Minha mãe ia amar. Valeu, Nelson! 🧀', reactions:{like:5,love:2,fire:0}, createdAt:'2025-04-20T19:00:00Z' },
+  { id:'p29', threadId:'t10', authorId:'u5', content:'Fiz ontem e ficou PERFEITO. A dica do freezer é crucial! Não sabia disso.', reactions:{like:3,love:1,fire:0}, createdAt:'2025-04-20T20:00:00Z' },
+  { id:'p30', threadId:'t10', authorId:'u4', content:'Coloquei bacon picado dentro e ficou divino. Upgrade aprovado! 🥓', reactions:{like:4,love:0,fire:2}, createdAt:'2025-04-20T21:00:00Z' },
+  // Thread t11 - Encontro
+  { id:'p31', threadId:'t11', authorId:'u2', content:'Count me in! Sábado funciona melhor pra mim. Bar do centro é top!', reactions:{like:3,love:0,fire:0}, createdAt:'2025-04-21T14:00:00Z' },
+  { id:'p32', threadId:'t11', authorId:'u5', content:'Tô dentro! Mas domingo seria melhor, tenho mais tempo. Parque também é boa opção se o clima cooperar.', reactions:{like:2,love:0,fire:0}, createdAt:'2025-04-21T15:00:00Z' },
+  // Thread t12 - VS Code vs Neovim
+  { id:'p33', threadId:'t12', authorId:'u1', content:'Neovim user here. Depois de 6 meses, não volto pra nada. Vim motions são viciantes.', reactions:{like:4,love:1,fire:1}, createdAt:'2025-04-22T11:00:00Z' },
+  { id:'p34', threadId:'t12', authorId:'u3', content:'VS Code com WSL funciona perfeitamente. Pra quem não quer gastar tempo configurando, é a melhor opção.', reactions:{like:5,love:0,fire:0}, createdAt:'2025-04-22T11:30:00Z' },
+  { id:'p35', threadId:'t12', authorId:'u5', content:'Zed é o futuro. Rust-based, super rápido e com multiplayer editing. Dá uma olhada!', reactions:{like:3,love:0,fire:1}, createdAt:'2025-04-22T12:00:00Z' },
+  // Thread t13 - Jogos indie
+  { id:'p36', threadId:'t13', authorId:'u2', content:'Animal Well é uma OBRA. Cada puzzle é genial. 100% worth it.', reactions:{like:6,love:2,fire:1}, createdAt:'2025-04-23T17:00:00Z' },
+  { id:'p37', threadId:'t13', authorId:'u4', content:'Nova Roma não conhecia! Baixei on baseado na sua recomendação e já tô viciado. Obrigado!', reactions:{like:3,love:1,fire:0}, createdAt:'2025-04-23T18:00:00Z' },
+  // Thread t14 - Playlist
+  { id:'p38', threadId:'t14', authorId:'u1', content:'Chillhop Music no YouTube é life saver. 24/7 de lo-fi bom demais.', reactions:{like:5,love:2,fire:0}, createdAt:'2025-04-24T10:00:00Z' },
+  { id:'p39', threadId:'t14', authorId:'u4', content:'Synthwave pra programar à noite é terapêutico. Recomendo Perturbator e Carpenter Brut.', reactions:{like:4,love:1,fire:1}, createdAt:'2025-04-24T10:30:00Z' },
+  { id:'p40', threadId:'t14', authorId:'u6', content:'Manda o link! Tô precisando de foco urgente pra entrega essa semana 📚', reactions:{like:2,love:0,fire:0}, createdAt:'2025-04-24T11:00:00Z' },
+  // Thread t15 - Telegram
+  { id:'p41', threadId:'t15', authorId:'u1', content:'Stories no Telegram? QueGF. Fica confuso com WhatsApp. Discord tem cores próprio.', reactions:{like:4,love:0,fire:0}, createdAt:'2025-04-25T16:00:00Z' },
+  { id:'p42', threadId:'t15', authorId:'u3', content:'Communities são muito superiores a Groups do WhatsApp. Finalmente organização de verdade.', reactions:{like:3,love:1,fire:0}, createdAt:'2025-04-25T16:30:00Z' },
+  // Thread t16 - Git SSH
+  { id:'p43', threadId:'t16', authorId:'u1', content:'Tutorial clareza! Faltou só mencionar pra adicionar a key no ssh-agent: ssh-add ~/.ssh/id_ed25519', reactions:{like:6,love:1,fire:0}, createdAt:'2025-04-26T13:00:00Z' },
+  { id:'p44', threadId:'t16', authorId:'u2', content:'No Windows, tem que tomar cuidado com o Windows Defender Firewall bloqueando a porta SSH às vezes.', reactions:{like:3,love:0,fire:0}, createdAt:'2025-04-26T14:00:00Z' },
+  { id:'p45', threadId:'t16', authorId:'u6', content:'Funcionou perfeitamente! Obrigado pelo passo a passo, Nelson. Tava quebrando a cabeça com isso há dias.', reactions:{like:2,love:2,fire:0}, createdAt:'2025-04-26T15:00:00Z' },
+];
+
+// ==================== APP STATE ====================
+let state = {
+  currentUser: null,
+  users: [],
+  categories: [],
+  threads: [],
+  posts: [],
+  theme: 'dark',
+  view: 'home',
+  viewData: null,
+  userReactions: {},
+};
+
+const LS_KEY = 'forumgalaxia_v1';
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(LS_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      state = { ...state, ...parsed };
+      // Ensure new fields exist
+      if (!state.userReactions) state.userReactions = {};
+      return true;
+    }
+  } catch(e) { console.error('Load error:', e); }
+  return false;
+}
+
+function saveState() {
+  try {
+    const toSave = {
+      currentUser: state.currentUser,
+      users: state.users,
+      categories: state.categories,
+      threads: state.threads,
+      posts: state.posts,
+      theme: state.theme,
+      userReactions: state.userReactions,
+    };
+    localStorage.setItem(LS_KEY, JSON.stringify(toSave));
+  } catch(e) { console.error('Save error:', e); }
+}
+
+function seedData() {
+  state.users = [...SEED_USERS];
+  state.categories = [...SEED_CATEGORIES];
+  state.threads = [...SEED_THREADS];
+  state.posts = [...SEED_POSTS];
+  state.userReactions = {};
+  saveState();
+}
+
+// ==================== HELPERS ====================
+function getUser(id) {
+  return state.users.find(u => u.id === id) || { id:'unknown', name:'Desconhecido', joined:'2025-01-01' };
+}
+
+function getAvatarStyle(name) {
+  const colors = [
+    ['#7c3aed','#4f46e5'],['#3b82f6','#06b6d4'],['#22c55e','#16a34a'],
+    ['#f59e0b','#ef4444'],['#ec4899','#8b5cf6'],['#ef4444','#f97316'],
+    ['#14b8a6','#3b82f6'],['#8b5cf6','#ec4899'],['#06b6d4','#22c55e'],
+  ];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  const idx = Math.abs(hash) % colors.length;
+  const [c1, c2] = colors[idx];
+  return `background:linear-gradient(135deg,${c1},${c2})`;
+}
+
+function getInitials(name) {
+  return name.substring(0, 2).toUpperCase();
+}
+
+function timeAgo(dateStr) {
+  const now = new Date();
+  const date = new Date(dateStr);
+  const diff = Math.floor((now - date) / 1000);
+  if (diff < 60) return 'agora';
+  if (diff < 3600) return Math.floor(diff/60) + 'min';
+  if (diff < 86400) return Math.floor(diff/3600) + 'h';
+  if (diff < 604800) return Math.floor(diff/86400) + 'd';
+  if (diff < 2592000) return Math.floor(diff/604800) + 'sem';
+  return date.toLocaleDateString('pt-BR', { day:'numeric', month:'short' });
+}
+
+function formatDate(dateStr) {
+  return new Date(dateStr).toLocaleDateString('pt-BR', { day:'numeric', month:'long', year:'numeric', hour:'2-digit', minute:'2-digit' });
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function getThreadPostCount(threadId) {
+  return state.posts.filter(p => p.threadId === threadId).length;
+}
+
+function getThreadTotalLikes(threadId) {
+  return state.posts.filter(p => p.threadId === threadId)
+    .reduce((sum, p) => sum + (p.reactions?.like || 0), 0);
+}
+
+function getThreadLastActivity(threadId) {
+  const threadPosts = state.posts.filter(p => p.threadId === threadId);
+  if (threadPosts.length === 0) return null;
+  return threadPosts.reduce((latest, p) => new Date(p.createdAt) > new Date(latest.createdAt) ? p : latest).createdAt;
+}
+
+function showToast(message, type='success') {
+  const toast = document.getElementById('toast');
+  toast.textContent = type === 'success' ? '✓ ' + message : '✕ ' + message;
+  toast.className = 'toast show ' + type;
+  setTimeout(() => toast.className = 'toast', 3000);
+}
+
+// ==================== THEME ====================
+function toggleTheme() {
+  state.theme = state.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', state.theme);
+  document.querySelector('.theme-toggle').textContent = state.theme === 'dark' ? '🌙' : '☀️';
+  saveState();
+}
+
+function applyTheme() {
+  document.documentElement.setAttribute('data-theme', state.theme);
+  document.querySelector('.theme-toggle').textContent = state.theme === 'dark' ? '🌙' : '☀️';
+}
+
+// ==================== SIDEBAR ====================
+function renderSidebar() {
+  const nav = document.getElementById('sidebarNav');
+  const catLinks = state.categories.map(c => `
+    <div class="sidebar-link" onclick="navigate('category','${c.id}')">
+      <span class="icon">${c.icon}</span>
+      <span>${c.name}</span>
+    </div>
+  `).join('');
+
+  nav.innerHTML = `
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Menu</div>
+      <div class="sidebar-link ${state.view==='home'?'active':''}" onclick="navigate('home')">
+        <span class="icon">🏠</span><span>Início</span>
+      </div>
+      <div class="sidebar-link" onclick="navigate('search','recent')">
+        <span class="icon">🕐</span><span>Atividade Recente</span>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Categorias</div>
+      ${catLinks}
+    </div>
+  `;
+
+  renderSidebarUser();
+}
+
+function renderSidebarUser() {
+  const el = document.getElementById('sidebarUser');
+  if (state.currentUser) {
+    const u = state.currentUser;
+    el.innerHTML = `
+      <div class="avatar" style="${getAvatarStyle(u.name)}">${getInitials(u.name)}</div>
+      <div class="user-info">
+        <div class="user-name">${escapeHtml(u.name)}</div>
+        <div class="user-role">Membro</div>
+      </div>
+      <button onclick="navigate('profile','${u.id}')" title="Perfil">👤</button>
+      <button onclick="logout()" title="Sair">⏻</button>
+    `;
+  } else {
+    el.innerHTML = `
+      <button class="btn btn-primary" style="width:100%" onclick="openLoginModal()">Entrar</button>
+    `;
+  }
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+
+// ==================== NAVIGATION ====================
+function navigate(view, data) {
+  state.view = view;
+  state.viewData = data || null;
+  renderSidebar();
+  renderContent();
+  window.scrollTo(0, 0);
+  // Close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+  updateActiveSidebar();
+}
+
+function updateActiveSidebar() {
+  document.querySelectorAll('.sidebar-link').forEach(el => el.classList.remove('active'));
+}
+
+// ==================== RENDERING ====================
+function renderContent() {
+  const content = document.getElementById('content');
+  switch(state.view) {
+    case 'home': content.innerHTML = renderHome(); break;
+    case 'category': content.innerHTML = renderCategory(state.viewData); break;
+    case 'thread': content.innerHTML = renderThread(state.viewData); break;
+    case 'profile': content.innerHTML = renderProfile(state.viewData); break;
+    case 'search': content.innerHTML = renderSearchResults(state.viewData); break;
+    default: content.innerHTML = renderHome();
+  }
+}
+
+// ---- HOME ----
+function renderHome() {
+  const totalThreads = state.threads.length;
+  const totalPosts = state.posts.length;
+  const totalUsers = state.users.length;
+
+  const categoriesHtml = state.categories.map(c => {
+    const threadCount = state.threads.filter(t => t.categoryId === c.id).length;
+    const totalCatPosts = state.threads.filter(t => t.categoryId === c.id)
+      .reduce((sum, t) => sum + getThreadPostCount(t.id), 0);
+    return `
+      <div class="category-card animate-in" onclick="navigate('category','${c.id}')">
+        <div class="category-icon" style="background:${c.color}22;color:${c.color}">${c.icon}</div>
+        <div class="category-info">
+          <h3>${c.name}</h3>
+          <p>${escapeHtml(c.desc)}</p>
+          <div class="category-meta">
+            <span>📝 ${threadCount} threads</span>
+            <span>💬 ${totalCatPosts} posts</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Latest activity - get recent threads
+  const recentThreads = [...state.threads]
+    .sort((a,b) => {
+      const aLast = getThreadLastActivity(a.id) || a.createdAt;
+      const bLast = getThreadLastActivity(b.id) || b.createdAt;
+      return new Date(bLast) - new Date(aLast);
+    })
+    .slice(0, 5);
+
+  const activityHtml = recentThreads.map(t => {
+    const cat = state.categories.find(c => c.id === t.categoryId);
+    const author = getUser(t.authorId);
+    const replies = getThreadPostCount(t.id);
+    const lastActivity = getThreadLastActivity(t.id) || t.createdAt;
+    return `
+      <div class="thread-row animate-in" onclick="navigate('thread','${t.id}')">
+        <div class="thread-avatar" style="${getAvatarStyle(author.name)}">${getInitials(author.name)}</div>
+        <div class="thread-info">
+          <div class="thread-title">${escapeHtml(t.title)}</div>
+          <div class="thread-meta">
+            <span>${escapeHtml(author.name)}</span>
+            <span class="dot"></span>
+            <span>${cat ? cat.icon + ' ' + cat.name : ''}</span>
+            <span class="dot"></span>
+            <span>${timeAgo(lastActivity)}</span>
+          </div>
+        </div>
+        <div class="thread-stats">
+          <div class="thread-replies">${replies}</div>
+          <div class="thread-replies-label">posts</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div class="hero">
+      <h1>Bem-vindo ao <span>ForumGalaxia</span> 🚀</h1>
+      <p>O espaço digital dos amigos — tecnologia, jogos, arte e conversas boas.</p>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <div class="stat-value">${totalThreads}</div>
+          <div class="stat-label">Threads</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">${totalPosts}</div>
+          <div class="stat-label">Posts</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">${totalUsers}</div>
+          <div class="stat-label">Membros</div>
+        </div>
+      </div>
+    </div>
+    <h2 class="section-title">📂 Categorias</h2>
+    <div class="categories-grid">${categoriesHtml}</div>
+    <h2 class="section-title">⚡ Atividade Recente</h2>
+    <div class="card">${activityHtml || '<div class="empty-state"><div class="icon">📭</div><h3>Nenhuma atividade ainda</h3></div>'}</div>
+  `;
+}
+
+// ---- CATEGORY ----
+function renderCategory(catId) {
+  const cat = state.categories.find(c => c.id === catId);
+  if (!cat) return '<div class="empty-state"><h3>Categoria não encontrada</h3></div>';
+
+  const threads = state.threads.filter(t => t.categoryId === catId);
+  
+  // Default sort
+  const sortBy = state.viewData ? '_default' : '_default';
+  
+  return `
+    <div class="thread-header">
+      <div class="breadcrumb">
+        <a href="#" onclick="navigate('home');return false">Início</a>
+        <span>›</span>
+        <span>${cat.icon} ${cat.name}</span>
+      </div>
+      <h1>${cat.icon} ${cat.name}</h1>
+      <p style="color:var(--text-secondary);font-size:14px;margin-top:4px">${escapeHtml(cat.desc)}</p>
+    </div>
+    <div class="thread-list-header">
+      <div style="font-size:14px;color:var(--text-secondary)">${threads.length} thread${threads.length !== 1 ? 's' : ''}</div>
+      <div class="thread-filters">
+        <button class="filter-btn active" onclick="sortCategoryThreads('${catId}','newest',this)">Mais Recentes</button>
+        <button class="filter-btn" onclick="sortCategoryThreads('${catId}','replies',this)">Mais Respondidos</button>
+        <button class="filter-btn" onclick="sortCategoryThreads('${catId}','likes',this)">Mais Curtidos</button>
+      </div>
+    </div>
+    <div class="card" id="threadListCard">
+      ${renderThreadList(threads, 'newest')}
+    </div>
+  `;
+}
+
+function renderThreadList(threads, sortBy) {
+  let sorted = [...threads];
+  switch(sortBy) {
+    case 'newest': sorted.sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)); break;
+    case 'replies': sorted.sort((a,b) => getThreadPostCount(b.id) - getThreadPostCount(a.id)); break;
+    case 'likes': sorted.sort((a,b) => getThreadTotalLikes(b.id) - getThreadTotalLikes(a.id)); break;
+  }
+
+  if (sorted.length === 0) {
+    return '<div class="empty-state"><div class="icon">📝</div><h3>Nenhuma thread ainda</h3><p>Seja o primeiro a criar uma!</p></div>';
+  }
+
+  return sorted.map(t => {
+    const author = getUser(t.authorId);
+    const replies = getThreadPostCount(t.id);
+    const lastActivity = getThreadLastActivity(t.id) || t.createdAt;
+    const tagsHtml = (t.tags || []).slice(0,3).map((tag,i) => {
+      const colors = ['', 'blue', 'green', 'orange'];
+      return `<span class="tag ${colors[i%4]}">${escapeHtml(tag)}</span>`;
+    }).join('');
+    return `
+      <div class="thread-row" onclick="navigate('thread','${t.id}')">
+        <div class="thread-avatar" style="${getAvatarStyle(author.name)}">${getInitials(author.name)}</div>
+        <div class="thread-info">
+          <div class="thread-title">${escapeHtml(t.title)}</div>
+          <div class="thread-meta">
+            <span>${escapeHtml(author.name)}</span>
+            <span class="dot"></span>
+            <span>${timeAgo(t.createdAt)}</span>
+            <span class="dot"></span>
+            <span>👁 ${t.views || 0}</span>
+          </div>
+          <div class="thread-tags">${tagsHtml}</div>
+        </div>
+        <div class="thread-stats">
+          <div class="thread-replies">${replies}</div>
+          <div class="thread-replies-label">posts</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function sortCategoryThreads(catId, sortBy, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const threads = state.threads.filter(t => t.categoryId === catId);
+  document.getElementById('threadListCard').innerHTML = renderThreadList(threads, sortBy);
+}
+
+// ---- THREAD VIEW ----
+function renderThread(threadId) {
+  const thread = state.threads.find(t => t.id === threadId);
+  if (!thread) return '<div class="empty-state"><h3>Thread não encontrada</h3></div>';
+
+  const cat = state.categories.find(c => c.id === thread.categoryId);
+  const author = getUser(thread.authorId);
+  const threadPosts = state.posts.filter(p => p.threadId === threadId)
+    .sort((a,b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+  const postsHtml = threadPosts.map((p, idx) => renderPost(p, idx === 0)).join('');
+
+  const tagsHtml = (thread.tags || []).map((tag,i) => {
+    const colors = ['', 'blue', 'green', 'orange'];
+    return `<span class="tag ${colors[i%4]}">${escapeHtml(tag)}</span>`;
+  }).join(' ');
+
+  return `
+    <div class="thread-header">
+      <div class="breadcrumb">
+        <a href="#" onclick="navigate('home');return false">Início</a>
+        <span>›</span>
+        <a href="#" onclick="navigate('category','${thread.categoryId}');return false">${cat ? cat.icon + ' ' + cat.name : ''}</a>
+        <span>›</span>
+        <span>${escapeHtml(thread.title).substring(0,40)}...</span>
+      </div>
+      <h1>${escapeHtml(thread.title)}</h1>
+      <div class="thread-header-meta">
+        <span>Criado por ${escapeHtml(author.name)}</span>
+        <span class="dot" style="width:3px;height:3px;border-radius:50%;background:var(--text-muted);display:inline-block"></span>
+        <span>${formatDate(thread.createdAt)}</span>
+        <span class="dot" style="width:3px;height:3px;border-radius:50%;background:var(--text-muted);display:inline-block"></span>
+        <span>👁 ${thread.views || 0} views</span>
+        ${tagsHtml ? '<span class="dot" style="width:3px;height:3px;border-radius:50%;background:var(--text-muted);display:inline-block"></span>' + tagsHtml : ''}
+      </div>
+    </div>
+    ${postsHtml}
+    ${state.currentUser ? `
+      <div class="reply-form">
+        <h3>💬 Responder</h3>
+        <textarea id="replyContent" placeholder="Escreva sua resposta..."></textarea>
+        <button class="btn btn-primary" onclick="postReply('${threadId}')">Enviar Resposta</button>
+      </div>
+    ` : `
+      <div class="reply-form" style="text-align:center">
+        <p style="color:var(--text-secondary);margin-bottom:12px">Faça login para responder</p>
+        <button class="btn btn-primary" onclick="openLoginModal()">Entrar</button>
+      </div>
+    `}
+  `;
+}
+
+function renderPost(post, isOriginal) {
+  const author = getUser(post.authorId);
+  const reactions = post.reactions || {like:0, love:0, fire:0};
+  const userReactKey = `${post.id}`;
+  const userReact = state.userReactions[userReactKey] || null;
+
+  return `
+    <div class="post-card ${isOriginal ? 'original' : ''}">
+      <div class="post-header">
+        <div class="post-avatar" style="${getAvatarStyle(author.name)}">${getInitials(author.name)}</div>
+        <div>
+          <div class="post-author" style="cursor:pointer" onclick="navigate('profile','${author.id}')">${escapeHtml(author.name)}</div>
+          <div class="post-time">${formatDate(post.createdAt)}</div>
+        </div>
+      </div>
+      <div class="post-body">${escapeHtml(post.content)}</div>
+      <div class="post-footer">
+        <button class="reaction-btn ${userReact === 'like' ? 'active' : ''}" onclick="toggleReaction('${post.id}','like')">
+          👍 <span class="count">${reactions.like || ''}</span>
+        </button>
+        <button class="reaction-btn ${userReact === 'love' ? 'active' : ''}" onclick="toggleReaction('${post.id}','love')">
+          ❤️ <span class="count">${reactions.love || ''}</span>
+        </button>
+        <button class="reaction-btn ${userReact === 'fire' ? 'active' : ''}" onclick="toggleReaction('${post.id}','fire')">
+          🔥 <span class="count">${reactions.fire || ''}</span>
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function toggleReaction(postId, type) {
+  if (!state.currentUser) { openLoginModal(); return; }
+  
+  const key = `${postId}`;
+  const post = state.posts.find(p => p.id === postId);
+  if (!post) return;
+  if (!post.reactions) post.reactions = {like:0, love:0, fire:0};
+
+  if (state.userReactions[key] === type) {
+    // Remove reaction
+    post.reactions[type] = Math.max(0, (post.reactions[type] || 0) - 1);
+    delete state.userReactions[key];
+  } else {
+    // Remove old reaction if exists
+    if (state.userReactions[key]) {
+      const oldType = state.userReactions[key];
+      post.reactions[oldType] = Math.max(0, (post.reactions[oldType] || 0) - 1);
+    }
+    // Add new reaction
+    post.reactions[type] = (post.reactions[type] || 0) + 1;
+    state.userReactions[key] = type;
+  }
+  saveState();
+  renderContent();
+}
+
+function postReply(threadId) {
+  if (!state.currentUser) { openLoginModal(); return; }
+  const content = document.getElementById('replyContent').value.trim();
+  if (!content) { showToast('Escreva algo antes de enviar!', 'error'); return; }
+
+  const post = {
+    id: 'p' + Date.now(),
+    threadId: threadId,
+    authorId: state.currentUser.id,
+    content: content,
+    reactions: {like:0, love:0, fire:0},
+    createdAt: new Date().toISOString(),
+  };
+  state.posts.push(post);
+  saveState();
+  showToast('Resposta publicada!');
+  renderContent();
+}
+
+// ---- PROFILE ----
+function renderProfile(userId) {
+  const user = state.users.find(u => u.id === userId);
+  if (!user) return '<div class="empty-state"><h3>Usuário não encontrado</h3></div>';
+
+  const userThreads = state.threads.filter(t => t.authorId === userId);
+  const userPosts = state.posts.filter(p => p.authorId === userId);
+  const totalLikes = userPosts.reduce((sum, p) => sum + (p.reactions?.like || 0) + (p.reactions?.love || 0) + (p.reactions?.fire || 0), 0);
+
+  const threadsHtml = userThreads.map(t => {
+    const cat = state.categories.find(c => c.id === t.categoryId);
+    const replies = getThreadPostCount(t.id);
+    return `
+      <div class="thread-row" onclick="navigate('thread','${t.id}')">
+        <div class="thread-info">
+          <div class="thread-title">${escapeHtml(t.title)}</div>
+          <div class="thread-meta">
+            <span>${cat ? cat.icon + ' ' + cat.name : ''}</span>
+            <span class="dot"></span>
+            <span>${timeAgo(t.createdAt)}</span>
+          </div>
+        </div>
+        <div class="thread-stats">
+          <div class="thread-replies">${replies}</div>
+          <div class="thread-replies-label">posts</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <div class="profile-header">
+      <div class="profile-avatar-lg" style="${getAvatarStyle(user.name)}">${getInitials(user.name)}</div>
+      <div class="profile-name">${escapeHtml(user.name)}</div>
+      <div class="profile-joined">Membro desde ${new Date(user.joined).toLocaleDateString('pt-BR', {month:'long', year:'numeric'})}</div>
+      <div class="profile-stats">
+        <div class="profile-stat">
+          <div class="profile-stat-val">${userThreads.length}</div>
+          <div class="profile-stat-label">Threads</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-val">${userPosts.length}</div>
+          <div class="profile-stat-label">Posts</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-val">${totalLikes}</div>
+          <div class="profile-stat-label">Reações</div>
+        </div>
+      </div>
+    </div>
+    ${userThreads.length > 0 ? `
+      <h2 class="section-title">📝 Threads de ${escapeHtml(user.name)}</h2>
+      <div class="card">${threadsHtml}</div>
+    ` : `
+      <div class="empty-state"><div class="icon">📝</div><h3>${escapeHtml(user.name)} ainda não criou nenhuma thread</h3></div>
+    `}
+  `;
+}
+
+// ---- SEARCH ----
+function renderSearchResults(query) {
+  if (!query || query === 'recent') {
+    // Show recent activity
+    const allPosts = [...state.posts].sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 20);
+    const postsHtml = allPosts.map(p => {
+      const thread = state.threads.find(t => t.id === p.threadId);
+      const author = getUser(p.authorId);
+      if (!thread) return '';
+      return `
+        <div class="thread-row" onclick="navigate('thread','${p.threadId}')">
+          <div class="thread-avatar" style="${getAvatarStyle(author.name)};width:32px;height:32px;font-size:11px">${getInitials(author.name)}</div>
+          <div class="thread-info">
+            <div class="thread-title" style="font-size:13px">${escapeHtml(author.name)} respondeu em "${escapeHtml(thread.title).substring(0,50)}"</div>
+            <div class="thread-meta">
+              <span style="color:var(--text-secondary)">${escapeHtml(p.content).substring(0,80)}...</span>
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);white-space:nowrap">${timeAgo(p.createdAt)}</div>
+        </div>
+      `;
+    }).join('');
+
+    return `
+      <h2 class="section-title">🕐 Atividade Recente</h2>
+      <div class="card">${postsHtml || '<div class="empty-state"><div class="icon">📭</div><h3>Nenhuma atividade</h3></div>'}</div>
+    `;
+  }
+
+  // Real search
+  const q = query.toLowerCase();
+  const results = state.threads.filter(t => 
+    t.title.toLowerCase().includes(q) || 
+    t.content.toLowerCase().includes(q) ||
+    (t.tags || []).some(tag => tag.toLowerCase().includes(q))
+  );
+
+  const resultsHtml = results.map(t => {
+    const cat = state.categories.find(c => c.id === t.categoryId);
+    const author = getUser(t.authorId);
+    const replies = getThreadPostCount(t.id);
+    return `
+      <div class="thread-row" onclick="navigate('thread','${t.id}')">
+        <div class="thread-avatar" style="${getAvatarStyle(author.name)}">${getInitials(author.name)}</div>
+        <div class="thread-info">
+          <div class="thread-title">${escapeHtml(t.title)}</div>
+          <div class="thread-meta">
+            <span>${escapeHtml(author.name)}</span>
+            <span class="dot"></span>
+            <span>${cat ? cat.icon + ' ' + cat.name : ''}</span>
+            <span class="dot"></span>
+            <span>${timeAgo(t.createdAt)}</span>
+          </div>
+        </div>
+        <div class="thread-stats">
+          <div class="thread-replies">${replies}</div>
+          <div class="thread-replies-label">posts</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  return `
+    <h2 class="section-title">🔍 Resultados para "${escapeHtml(query)}"</h2>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">${results.length} resultado${results.length !== 1 ? 's' : ''} encontrado${results.length !== 1 ? 's' : ''}</p>
+    <div class="card">${resultsHtml || '<div class="empty-state"><div class="icon">🔍</div><h3>Nenhum resultado encontrado</h3><p>Tente outros termos</p></div>'}</div>
+  `;
+}
+
+function handleSearch() {
+  const query = document.getElementById('searchInput').value.trim();
+  if (query.length > 0) {
+    navigate('search', query);
+  } else if (state.view === 'search') {
+    navigate('home');
+  }
+}
+
+// ==================== CREATE THREAD ====================
+function openCreateModal() {
+  if (!state.currentUser) { openLoginModal(); return; }
+  
+  const select = document.getElementById('threadCategory');
+  select.innerHTML = state.categories.map(c => 
+    `<option value="${c.id}">${c.icon} ${c.name}</option>`
+  ).join('');
+  
+  document.getElementById('threadTitle').value = '';
+  document.getElementById('threadContent').value = '';
+  document.getElementById('threadTags').value = '';
+  document.getElementById('createModal').classList.add('active');
+}
+
+function closeCreateModal() {
+  document.getElementById('createModal').classList.remove('active');
+}
+
+function createThread() {
+  const title = document.getElementById('threadTitle').value.trim();
+  const content = document.getElementById('threadContent').value.trim();
+  const categoryId = document.getElementById('threadCategory').value;
+  const tagsStr = document.getElementById('threadTags').value.trim();
+
+  if (!title) { showToast('Título é obrigatório!', 'error'); return; }
+  if (!content) { showToast('Conteúdo é obrigatório!', 'error'); return; }
+
+  const tags = tagsStr ? tagsStr.split(',').map(t => t.trim()).filter(t => t) : [];
+
+  const thread = {
+    id: 't' + Date.now(),
+    categoryId,
+    authorId: state.currentUser.id,
+    title,
+    content,
+    tags,
+    createdAt: new Date().toISOString(),
+    views: 0,
+  };
+
+  // Create first post (the thread content itself)
+  const post = {
+    id: 'p' + Date.now(),
+    threadId: thread.id,
+    authorId: state.currentUser.id,
+    content,
+    reactions: {like:0, love:0, fire:0},
+    createdAt: new Date().toISOString(),
+  };
+
+  state.threads.push(thread);
+  state.posts.push(post);
+  saveState();
+  closeCreateModal();
+  showToast('Thread criada com sucesso! 🎉');
+  navigate('thread', thread.id);
+}
+
+// ==================== AUTH ====================
+function openLoginModal() {
+  const grid = document.getElementById('loginUserGrid');
+  grid.innerHTML = state.users.map(u => `
+    <button class="login-user-btn" data-user-id="${u.id}" onclick="selectLoginUser('${u.id}', this)">
+      <div class="avatar" style="${getAvatarStyle(u.name)};width:32px;height:32px;font-size:11px">${getInitials(u.name)}</div>
+      <span style="font-size:13px;font-weight:600">${escapeHtml(u.name)}</span>
+    </button>
+  `).join('');
+  document.getElementById('loginCustomName').value = '';
+  document.getElementById('loginModal').classList.add('active');
+}
+
+function selectLoginUser(userId, btn) {
+  document.querySelectorAll('.login-user-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  document.getElementById('loginCustomName').value = '';
+}
+
+function loginUser() {
+  // Check if a preset user is selected
+  const selectedBtn = document.querySelector('.login-user-btn.selected');
+  if (selectedBtn) {
+    const userId = selectedBtn.dataset.userId;
+    state.currentUser = state.users.find(u => u.id === userId);
+  } else {
+    // Custom name
+    const name = document.getElementById('loginCustomName').value.trim();
+    if (!name) { showToast('Digite um nome ou selecione um perfil!', 'error'); return; }
+    
+    // Check if user exists
+    let user = state.users.find(u => u.name.toLowerCase() === name.toLowerCase());
+    if (!user) {
+      user = {
+        id: 'u' + Date.now(),
+        name: name,
+        joined: new Date().toISOString().split('T')[0],
+      };
+      state.users.push(user);
+    }
+    state.currentUser = user;
+  }
+
+  saveState();
+  document.getElementById('loginModal').classList.remove('active');
+  renderSidebar();
+  renderContent();
+  showToast(`Bem-vindo, ${state.currentUser.name}! 👋`);
+}
+
+function logout() {
+  state.currentUser = null;
+  saveState();
+  renderSidebar();
+  renderContent();
+  showToast('Você saiu da sua conta.');
+}
+
+// ==================== INIT ====================
+function init() {
+  const loaded = loadState();
+  if (!loaded || state.threads.length === 0) {
+    seedData();
+  }
+  applyTheme();
+  renderSidebar();
+  renderContent();
+
+  // Close modal on overlay click
+  document.getElementById('overlay').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  });
+
+  document.getElementById('createModal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('createModal')) closeCreateModal();
+  });
+
+  document.getElementById('loginModal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('loginModal')) {
+      document.getElementById('loginModal').classList.remove('active');
+    }
+  });
+
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeCreateModal();
+      document.getElementById('loginModal').classList.remove('active');
+    }
+  });
+
+  // Check if first visit
+  if (!localStorage.getItem('forumgalaxia_visited')) {
+    localStorage.setItem('forumgalaxia_visited', 'true');
+    setTimeout(() => openLoginModal(), 800);
+  }
+}
+
+// Start
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
